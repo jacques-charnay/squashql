@@ -1,24 +1,6 @@
-import {BasicMeasure, Field, PACKAGE} from "./index"
-
-export interface Condition {
-  readonly class: string
-  readonly type: ConditionType
-}
-
-export enum ConditionType {
-  EQ = "EQ",
-  NEQ = "NEQ",
-  LT = "LT",
-  LE = "LE",
-  GT = "GT",
-  GE = "GE",
-  IN = "IN",
-  LIKE = "LIKE",
-  AND = "AND",
-  OR = "OR",
-  NULL = "NULL",
-  NOT_NULL = "NOT_NULL",
-}
+import PACKAGE from "./package";
+import {Condition, BasicMeasure, ConditionType, Field} from "./types";
+import Criteria from "./criteria";
 
 function toJSON(c: Condition) {
   return {
@@ -81,17 +63,6 @@ export class LogicalCondition implements Condition {
       "one": this.one,
       "two": this.two,
     }
-  }
-}
-
-export class Criteria {
-
-  constructor(public field: Field,
-              public fieldOther: Field,
-              private measure: BasicMeasure,
-              private condition: Condition,
-              public conditionType: ConditionType,
-              public children: Criteria[]) {
   }
 }
 

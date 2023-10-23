@@ -1,22 +1,21 @@
-import {BinaryOperationField, ConstantField, Field, TableField} from "./field";
-import {BucketColumnSet, ColumnSet, Month, Period, Quarter, Semester, Year} from "./columnsets";
+import {ColumnSet, Condition, Field, Measure, Period} from "./types";
+import {BinaryOperationField, ConstantField, TableField} from "./field";
+import {BucketColumnSet, Month, Quarter, Semester, Year} from "./columnsets";
 import {
   AggregatedMeasure,
   BinaryOperationMeasure,
   ComparisonMeasureReferencePosition,
   DoubleConstantMeasure,
   ExpressionMeasure,
-  LongConstantMeasure,
-  Measure
+  LongConstantMeasure
 } from "./measure";
 import {
-  Condition,
   ConstantCondition,
-  Criteria,
   InCondition,
   LogicalCondition,
   SingleValueCondition
 } from "./conditions";
+import Criteria from "./criteria";
 
 const createResultArrayIfNeeded = (resultArray : TableField[] | undefined) : TableField[] => {
   if (!resultArray) {
