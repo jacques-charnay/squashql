@@ -9,24 +9,17 @@ import {
   ExpressionMeasure,
   LongConstantMeasure
 } from "./measure";
-import {
-  ConstantCondition,
-  InCondition,
-  LogicalCondition,
-  SingleValueCondition
-} from "./conditions";
+import {ConstantCondition, InCondition, LogicalCondition, SingleValueCondition} from "./conditions";
 import Criteria from "./criteria";
 
-const createResultArrayIfNeeded = (resultArray : TableField[] | undefined) : TableField[] => {
+const createResultArrayIfNeeded = (resultArray: TableField[] | undefined): TableField[] => {
   if (!resultArray) {
     return [];
   }
   return resultArray;
 };
 
-export const computeFieldDependencies = (field: Field, resultArray?: TableField[]): TableField[] => {
-  resultArray = createResultArrayIfNeeded(resultArray);
-
+export const computeFieldDependencies = (field: Field, resultArray: TableField[] = []): TableField[] => {
   switch (field.constructor) {
     case TableField:
       if ((field as TableField).fullName !== "*") {
@@ -46,9 +39,7 @@ export const computeFieldDependencies = (field: Field, resultArray?: TableField[
   return resultArray;
 };
 
-export const computeColumnSetDependencies = (columnSet: ColumnSet, resultArray?: TableField[]): TableField[] => {
-  resultArray = createResultArrayIfNeeded(resultArray);
-
+export const computeColumnSetDependencies = (columnSet: ColumnSet, resultArray: TableField[] = []): TableField[] => {
   switch (columnSet.constructor) {
     case BucketColumnSet:
       computeFieldDependencies((columnSet as BucketColumnSet)["field"], resultArray);
@@ -60,9 +51,7 @@ export const computeColumnSetDependencies = (columnSet: ColumnSet, resultArray?:
   return resultArray;
 };
 
-export const computePeriodDependencies = (period: Period, resultArray?: TableField[]): TableField[] => {
-  resultArray = createResultArrayIfNeeded(resultArray);
-
+export const computePeriodDependencies = (period: Period, resultArray: TableField[] = []): TableField[] => {
   switch (period.constructor) {
     case Year:
       computeFieldDependencies((period as Year)["year"], resultArray);
@@ -86,9 +75,7 @@ export const computePeriodDependencies = (period: Period, resultArray?: TableFie
   return resultArray;
 };
 
-export const computeMeasureDependencies = (measure: Measure, resultArray?: TableField[]): TableField[] => {
-  resultArray = createResultArrayIfNeeded(resultArray);
-
+export const computeMeasureDependencies = (measure: Measure, resultArray: TableField[] = []): TableField[] => {
   switch (measure.constructor) {
     case AggregatedMeasure:
       computeFieldDependencies((measure as AggregatedMeasure).field, resultArray);
@@ -121,9 +108,7 @@ export const computeMeasureDependencies = (measure: Measure, resultArray?: Table
   return resultArray;
 };
 
-export const computeConditionDependencies = (condition: Condition, resultArray?: TableField[]): TableField[] => {
-  resultArray = createResultArrayIfNeeded(resultArray);
-
+export const computeConditionDependencies = (condition: Condition, resultArray: TableField[] = []): TableField[] => {
   switch (condition.constructor) {
     case InCondition:
       (condition as InCondition)["values"].forEach((field) => computeFieldDependencies(field, resultArray));
@@ -144,9 +129,7 @@ export const computeConditionDependencies = (condition: Condition, resultArray?:
   return resultArray;
 };
 
-export const computeCriteriaDependencies = (criteria: Criteria, resultArray?: TableField[]): TableField[] => {
-  resultArray = createResultArrayIfNeeded(resultArray);
-
+export const computeCriteriaDependencies = (criteria: Criteria, resultArray: TableField[] = []): TableField[] => {
   if (criteria.field) {
     computeFieldDependencies(criteria.field, resultArray);
   }
